@@ -60,4 +60,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx' // Authentication
     implementation 'com.google.firebase:firebase-storage-ktx' // storage
     implementation 'com.google.firebase:firebase-database-ktx' // realtimeDB
+    implementation 'com.google.firebase:firebase-firestore-ktx' // firestore
 }

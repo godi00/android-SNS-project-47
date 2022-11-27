@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // 로그인 수행 method
     private fun doLogin(userEmail: String, password: String) {
         Firebase.auth.signInWithEmailAndPassword(userEmail, password)
             .addOnCompleteListener(this) { // it: Task<AuthResult!>

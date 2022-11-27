@@ -7,10 +7,14 @@ import android.util.Log
 import android.widget.Toast
 import com.example.androidsnsproject.databinding.ActivitySignupBinding
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
-    lateinit var binding: ActivitySignupBinding // binding
+    private lateinit var binding: ActivitySignupBinding // binding
+    private val db: FirebaseFirestore = Firebase.firestore // DB
+    private val userColRef = db.collection("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +53,16 @@ class SignupActivity : AppCompatActivity() {
 
                 // 모든 게 정상적으로 수행되어야만 회원가입 완료
                 if(it.isSuccessful && correctEmail && correctPwd && correctName && correctBirth) {
-//                    println("sign-up success")
-//                    println(Firebase.auth.currentUser?.uid)
+                    val uid = Firebase.auth.currentUser?.uid.toString()
+                    saveDB(uid, userName, userEmail, birth, password)
+
                     startActivity(
                         Intent(this, MainActivity::class.java)
                     )
                     finish()
+
                 } else {
-//                    println("sign-up failed ${it.exception?.messㅁㄴㅇage}")
+//                    println("sign-up failed ${it.exception?.message}")
                     Log.w("SignupActivity", "signUpWithEmail", it.exception)
                     if(!correctEmail)
                         Toast.makeText(this, "이메일 형식을 맞춰 작성해야 합니다.", Toast.LENGTH_SHORT).show()
@@ -75,7 +81,7 @@ class SignupActivity : AppCompatActivity() {
     /*
      * 형식 오류의 기준
      * 이메일: abc@domain.com 과 같은 일반적인 이메일 형식
-     * 비밀번호: 6자 이상
+     * 비밀번호: 6~20자
      * 이름: 1~10자
      * 생년월일: 0000-00-00 형식 && 1900-01-01 ~ 2022-01-01 출생
      */
@@ -92,8 +98,8 @@ class SignupActivity : AppCompatActivity() {
 
     // 비밀번호 유효성 검사 함수
     private fun isPwd(userPwd: String): Boolean {
-        // 6자 이상의 비밀번호
-        val regexPwd = Regex("^[A-Za-z0-9]{6}\$")
+        // 6~20자의 비밀번호
+        val regexPwd = Regex("^[A-Za-z0-9]{6,20}\$")
         // 형식 검사
         if(userPwd.matches(regexPwd))
             return true // correct
@@ -142,5 +148,20 @@ class SignupActivity : AppCompatActivity() {
             }
         }
         return false // incorrect
+    }
+
+    private fun saveDB(userId: String, userName: String, userEmail: String, userBirth: String, userPwd: String) {
+        // user 정의
+        val user = hashMapOf(
+            "email" to userEmail,
+            "birth" to userBirth,
+            "name" to userName,
+            "pwd" to userPwd
+        )
+
+        // document 의 ID를 userId(uid) 값으로 지정
+        userColRef.document(userId).set(user)
+            .addOnSuccessListener { println("add Success") }
+            .addOnFailureListener { println("add Failure") }
     }
 }
