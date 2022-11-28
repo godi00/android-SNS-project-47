@@ -57,13 +57,13 @@ class SignupActivity : AppCompatActivity() {
                     saveDB(uid, userName, userEmail, birth, password)
 
                     startActivity(
-                        Intent(this, MainActivity::class.java)
+                        Intent(this, NavigationActivity::class.java)
                     )
                     finish()
 
                 } else {
-//                    println("sign-up failed ${it.exception?.message}")
                     Log.w("SignupActivity", "signUpWithEmail", it.exception)
+
                     if(!correctEmail)
                         Toast.makeText(this, "이메일 형식을 맞춰 작성해야 합니다.", Toast.LENGTH_SHORT).show()
                     else if(!correctPwd)
@@ -74,6 +74,7 @@ class SignupActivity : AppCompatActivity() {
                         Toast.makeText(this, "생년월일 형식을 맞춰 작성해야 합니다.", Toast.LENGTH_SHORT).show()
                     else
                         Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    println("sign-up failed ${it.exception?.message}")
                 }
             }
     }

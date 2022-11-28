@@ -22,12 +22,9 @@ class MainActivity : AppCompatActivity() {
             )
             finish()
         }
-
-        // btnSignout: 로그아웃 수행 후 로그인 화면으로
-        binding.btnSignout.setOnClickListener {
-            Firebase.auth.signOut()
+        else {
             startActivity(
-                Intent(this, LoginActivity::class.java)
+                Intent(this, NavigationActivity::class.java)
             )
             finish()
         }

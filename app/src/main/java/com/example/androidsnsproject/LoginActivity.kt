@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { // it: Task<AuthResult!>
                 if (it.isSuccessful) {
                     startActivity(
-                        Intent(this, MainActivity::class.java)
+                        Intent(this, NavigationActivity::class.java)
                     )
                     finish()
                 } else {
