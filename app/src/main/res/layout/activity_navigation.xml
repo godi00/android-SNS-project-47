@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemBackground="@color/black"
         app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
         app:menu="@menu/navigation_menu"
         tools:ignore="MissingConstraints" />
 
