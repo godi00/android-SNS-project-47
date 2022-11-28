@@ -13,6 +13,8 @@ class NavigationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 기본으로 들어가지는 프래그먼트 보이기
+        val homeFrag = HomeFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrameLayout, homeFrag).commit()
 
         binding.navigationView.setOnItemSelectedListener {
             item -> when(item.itemId) {
