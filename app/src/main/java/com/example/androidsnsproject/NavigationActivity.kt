@@ -12,7 +12,7 @@ class NavigationActivity : AppCompatActivity() {
         binding = ActivityNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        
+        // 기본으로 들어가지는 프래그먼트 보이기
 
         binding.navigationView.setOnItemSelectedListener {
             item -> when(item.itemId) {
@@ -41,7 +41,7 @@ class NavigationActivity : AppCompatActivity() {
                     true
                 }
             else -> { false }
-            }
-        }
-    }
+            } // when END
+        } // setOnItemSelectedListener END
+    } // OnCreate END
 }
